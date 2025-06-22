@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - Classhelper</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Admin Panel</h2>
+  <div id="userList"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyADgCrG3hspwEO45ARRkRdOh7j_vvOhouY",
+      authDomain: "rufed-c71e5.firebaseapp.com",
+      databaseURL: "https://rufed-c71e5-default-rtdb.firebaseio.com",
+      projectId: "rufed-c71e5",
+      storageBucket: "rufed-c71e5.appspot.com",
+      messagingSenderId: "408519198212",
+      appId: "1:408519198212:web:31e0e246307d8b24935751"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    onValue(ref(db, "users"), snap => {
+      const div = document.getElementById("userList");
+      div.innerHTML = "";
+      snap.forEach(child => {
+        const user = child.val();
+        const item = document.createElement("div");
+        item.innerHTML = `
+          <b>${user.username}</b> (${user.role}) 
+          <button onclick="suspend('${child.key}', ${!user.suspended})">
+            ${user.suspended ? "Unsuspend" : "Suspend"}
+          </button>
+        `;
+        div.appendChild(item);
+      });
+    });
+
+    window.suspend = function(uid, status) {
+      update(ref(db, `users/${uid}`), { suspended: status });
+    };
+  </script>
+</body>
+</html>

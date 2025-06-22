@@ -1,0 +1,23 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 10px;
+}
+.login-box, .dashboard {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+textarea, input, select, button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 8px;
+}
+.post {
+  background: #f1f1f1;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+}

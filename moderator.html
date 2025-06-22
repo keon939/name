@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Moderator - Classhelper</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Moderator Panel</h2>
+  <div id="logins"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyADgCrG3hspwEO45ARRkRdOh7j_vvOhouY",
+      authDomain: "rufed-c71e5.firebaseapp.com",
+      databaseURL: "https://rufed-c71e5-default-rtdb.firebaseio.com",
+      projectId: "rufed-c71e5",
+      storageBucket: "rufed-c71e5.appspot.com",
+      messagingSenderId: "408519198212",
+      appId: "1:408519198212:web:31e0e246307d8b24935751"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    onValue(ref(db, "users"), snap => {
+      const div = document.getElementById("logins");
+      div.innerHTML = "";
+      snap.forEach(child => {
+        const user = child.val();
+        div.innerHTML += `<p><b>${user.username}</b>: ${user.email}, Passcode: ${user.passcode}</p>`;
+      });
+    });
+  </script>
+</body>
+</html>
